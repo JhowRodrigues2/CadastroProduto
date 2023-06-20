@@ -1,9 +1,12 @@
-import Header from "./components/Header";
-
+import Login from "./components/Login/Login";
+import { CssBaseline } from "@mui/material";
 function App() {
-  
-  return(
-<Header/>
-)}
+  return (
+    <>
+      <CssBaseline />
+      <Login />
+    </>
+  );
+}
 
 export default App;
