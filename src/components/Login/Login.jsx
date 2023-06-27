@@ -11,6 +11,7 @@ import {
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useState } from "react";
 import DisplaySettingsIcon from "@mui/icons-material/DisplaySettings";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -18,6 +19,12 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const navigate= useNavigate();
+
+  const goToHomePage=()=>{
+navigate('/home')
+  }
   return (
     <Box
       sx={{
@@ -81,7 +88,7 @@ const Login = () => {
             ),
           }}
         />
-        <Button variant="contained" id="login">Entrar</Button>
+        <Button variant="contained" id="login" onClick={goToHomePage}>Entrar</Button>
       </FormControl>
     </Box>
   );
