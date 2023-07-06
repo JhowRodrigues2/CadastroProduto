@@ -136,7 +136,7 @@ const Login = () => {
             helperText={formik.touched.password && formik.errors.password}
           />
           {error && (
-            <Typography style={{ color: "#FF0000" }}>
+            <Typography  style={{ color: "#FF0000" }}>
               Usuário ou senha incorretos!
             </Typography>
           )}
