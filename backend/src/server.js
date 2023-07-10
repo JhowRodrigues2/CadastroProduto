@@ -4,12 +4,17 @@ const mysql = require("mysql2");
 const cors = require("cors");
 app.use(express.json())
 app.use(cors());
+require('dotenv').config();
+const user = process.env.DB_USER
+const password = process.env.DB_PASS
+const dbName = process.env.DB_NAME
+
 
 const db = mysql.createPool({
     host:"localhost",
-    user:"root",
-    password:"root",
-    database:"cadproduto"
+    user:user,
+    password:password,
+    database:dbName
 })
 
 
