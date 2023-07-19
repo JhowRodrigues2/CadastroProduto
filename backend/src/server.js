@@ -27,7 +27,11 @@ db.query("INSERT INTO usuarios (usuario, password) VALUES ('teste','teste')"),(e
 }
   res.send('hello word')
 });
-
+app.post("/caduser", (req, res) => {
+  const name = req.body.name
+  const user = req.body.user;
+  const password = req.body.password;
+})
 
 app.post('/login', (req, res) => {
   const usuario = req.body.user;
