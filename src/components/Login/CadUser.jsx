@@ -12,10 +12,14 @@ import {
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
+import axios from "axios";
 
 const CadUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const[name,setName]= useState('')
+  const[userLogin,setUserLogin]= useState('')
+  const[password,setPassword]= useState('')
 
   const handleClickShowPassword = (field) => {
     if (field === "password") {
@@ -27,6 +31,19 @@ const CadUser = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleClickRegister=()=>{
+    axios.post("http://localhost:3000/caduser", {
+      name:name,
+      user:userLogin,
+      password: password,
+    }).then((response) => {
+      console.log(response.data); 
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
   return (
     <Box
       sx={{
@@ -58,8 +75,8 @@ const CadUser = () => {
         <Typography variant="h6" color="#4682B4" margin="0 auto">
           Cadastro de Usuário
         </Typography>
-        <TextField label="Nome" name="name" size="small" fullWidth />
-        <TextField label="usuário" size="small" fullWidth />
+        <TextField label="Nome" name="name" size="small" fullWidth onChange={e=>setName(e.target.value)} />
+        <TextField label="usuário" size="small" fullWidth onChange={e=>setUserLogin(e.target.value)} />
         <TextField
           id="pass"
           size="small"
@@ -81,6 +98,7 @@ const CadUser = () => {
               </InputAdornment>
             ),
           }}
+          onChange={e=>setPassword(e.target.value)}
         />
         <TextField
           id="confirmPass"
@@ -104,7 +122,7 @@ const CadUser = () => {
             ),
           }}
         />
-        <Button variant="contained" id="login" type="submit">
+        <Button variant="contained" id="login" type="submit" onClick={handleClickRegister}>
           <SaveIcon fontSize="small" style={{ marginRight: "10" }} />
           Salvar
         </Button>
