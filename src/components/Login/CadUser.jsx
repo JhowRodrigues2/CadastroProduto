@@ -17,9 +17,12 @@ import axios from "axios";
 const CadUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorPass, setErrorPass] = useState(false);
   const[name,setName]= useState('')
   const[userLogin,setUserLogin]= useState('')
   const[password,setPassword]= useState('')
+  const[confirmOassword,setConfirmPassword]= useState('')
+  const [ message, setMessage] = useState('');
 
   const handleClickShowPassword = (field) => {
     if (field === "password") {
@@ -32,18 +35,28 @@ const CadUser = () => {
     event.preventDefault();
   };
 
-  const handleClickRegister=()=>{
+  const handleClickRegister=(event)=>{
+    event.preventDefault();
+
+  if(password===confirmOassword){
     axios.post("http://localhost:3000/caduser", {
       name:name,
       user:userLogin,
       password: password,
+
     }).then((response) => {
-      console.log(response.data); 
+      event.preventDefault();
+
+    setMessage(response.data.msg); 
     })
     .catch((error) => {
       console.error(error);
     });
+    setErrorPass(false)
+  }else{
+    setErrorPass(true)
   }
+}
   return (
     <Box
       sx={{
@@ -55,6 +68,7 @@ const CadUser = () => {
         justifyContent: "center",
       }}
     >
+      <form onSubmit={handleClickRegister}>
       <FormControl
         sx={{
           m: 1,
@@ -75,14 +89,15 @@ const CadUser = () => {
         <Typography variant="h6" color="#4682B4" margin="0 auto">
           Cadastro de Usuário
         </Typography>
-        <TextField label="Nome" name="name" size="small" fullWidth onChange={e=>setName(e.target.value)} />
-        <TextField label="usuário" size="small" fullWidth onChange={e=>setUserLogin(e.target.value)} />
+        <TextField label="Nome" name="name" size="small" fullWidth onChange={e=>setName(e.target.value)} required />
+        <TextField label="usuário" size="small" fullWidth onChange={e=>setUserLogin(e.target.value)} required/>
         <TextField
           id="pass"
           size="small"
           fullWidth
           name="password"
           label="Senha"
+          required
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -106,6 +121,7 @@ const CadUser = () => {
           fullWidth
           name="confirmPass"
           label="Confirmação de Senha"
+        required
           type={showConfirmPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
@@ -121,12 +137,15 @@ const CadUser = () => {
               </InputAdornment>
             ),
           }}
-        />
-        <Button variant="contained" id="login" type="submit" onClick={handleClickRegister}>
+       onChange={e =>setConfirmPassword(e.target.value)}  />
+        <Typography fontSize={14} fontWeight={500} color={message=='Usuário cadastrado!'? '#66bb6a':'error'}>{message}</Typography>
+       {errorPass&&<Typography fontSize={14} fontWeight={500} color="error"> Senhas não coincidem.</Typography>}
+        <Button variant="contained" id="login" type="submit" >
           <SaveIcon fontSize="small" style={{ marginRight: "10" }} />
           Salvar
         </Button>
       </FormControl>
+      </form>
     </Box>
   );
 };

@@ -38,7 +38,6 @@ app.post("/caduser", (req, res) => {
       console.error(err);
       res.send(err);
     } else {
-      console.log("Query result:", result);
 
       if (result.length === 0) {
         db.query(
@@ -49,7 +48,7 @@ app.post("/caduser", (req, res) => {
               console.error(err);
               res.send(err);
             } else {
-              res.send({ msg: 'Cadastrado com sucesso!' });
+              res.send({ msg: 'Usuário cadastrado!' });
             }
           }
         );
